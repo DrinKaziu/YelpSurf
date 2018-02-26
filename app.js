@@ -16,8 +16,8 @@ var     surfspotRoutes = require("./routes/surfspots"),
         commentsRoutes = require("./routes/comments"),
         indexRoutes     = require("./routes/index");
 
-
-mongoose.connect(process.env.DATABASEURL);
+var url = process.env.DATABASEURL || "mongodb://localhost/yelp_surf";
+mongoose.connect(url);
 // mongoose.connect("mongodb://SnowSurfer:Incantesimo1!@ds249398.mlab.com:49398/yelpsurf");
 
 app.use(bodyParser.urlencoded({extended: true}));

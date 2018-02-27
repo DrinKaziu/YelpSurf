@@ -6,7 +6,7 @@ var middleware = require("../middleware");
 
 
 //INDEX - Show All Surf Spots
-router.get("/", function(req, res){
+router.get("/surfspots", function(req, res){
     // Get all surfspots from DB
     Surfspot.find({}, function(err, allSurfspots){
        if(err){

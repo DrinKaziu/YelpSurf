@@ -1,55 +1,55 @@
 <% include ../partials/header %>
 
-<div class="container">
-    <div class="row">
-        <div class="col-md-3">
-            <p class="lead">YelpSurf</p>
-            <div class="list-group">
-                <li class="list-group-item active">Info 1</li>
-                <li class="list-group-item">Info 2</li>
-                <li class="list-group-item">Info 3</li>
+
+<div class="row">
+    <div class="col-md-3">
+        <p class="lead">YelpSurf</p>
+        <div class="list-group">
+            <li class="list-group-item active">Info 1</li>
+            <li class="list-group-item">Info 2</li>
+            <li class="list-group-item">Info 3</li>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="thumbnail">
+            <img class="img-responsive" src="<%= surfspot.image %>">
+            <div class="caption-full">
+                <h4 class="pull-right">$<%= surfspot.cost %>/night</h4>
+                <h4><a><%= surfspot.name %></a></h4>
+                <p><%= surfspot.description %></p>
+                <p><em>Submitted By: <%= surfspot.author.username %></em></p>
+                <% if(currentUser && surfspot.author.id.equals(currentUser._id)) { %>
+                    <a href="/surfspots/<%= surfspot._id %>/edit" class="btn btn-xs btn-warning" >Edit</a>
+                    <form class="delete-form" action="/surfspots/<%= surfspot._id %>?_method=DELETE" method="POST">
+                        <button class="btn btn-xs btn-danger">Delete</button>
+                    </form>
+                <% } %>
             </div>
         </div>
-        <div class="col-md-9">
-            <div class="thumbnail">
-                <img class="img-responsive" src="<%= surfspot.image %>">
-                <div class="caption-full">
-                    <h4 class="pull-right">$<%= surfspot.price%>/night></h4>
-                    <h4><a><%= surfspot.name %></a></h4>
-                    <p><%= surfspot.description %></p>
-                    <p><em>Submitted By: <%= surfspot.author.username %></em></p>
-                    <% if(currentUser && surfspot.author.id.equals(currentUser._id)) { %>
-                        <a href="/surfspots/<%= surfspot._id %>/edit" class="btn btn-xs btn-warning" >Edit</a>
-                        <form class="delete-form" action="/surfspots/<%= surfspot._id %>?_method=DELETE" method="POST">
-                            <button class="btn btn-xs btn-danger">Delete</button>
-                        </form>
-                    <% } %>
-                </div>
+        <div class="well">
+            <div class="text-right">
+                <a class="btn btn-success" href="/surfspots/<%= surfspot._id %>/comments/new">Leave Comment</a>
             </div>
-            <div class="well">
-                <div class="text-right">
-                    <a class="btn btn-success" href="/surfspots/<%= surfspot._id %>/comments/new">Leave Comment</a>
-                </div>
-                <hr>
-                <% surfspot.comments.forEach(function(comment) { %>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <strong><%= comment.author.username %></strong>
-                            <span class="pull-right">10 days ago</span>
-                            <p><%= comment.text %></p>
-                            <% if(currentUser && comment.author.id.equals(currentUser._id)) { %>
-                                <a class="btn btn-xs btn-warning" href="/surfspots/<%= surfspot._id %>/comments/<%= comment._id %>/edit">Edit</a>
-                                <form class="delete-form" action="/surfspots/<%= surfspot._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
-                                    <input type="submit" class="btn btn-xs btn-danger" value="Delete">
-                                </form>
-                            <% } %>
-                        </div>
+            <hr>
+            <% surfspot.comments.forEach(function(comment) { %>
+                <div class="row">
+                    <div class="col-md-12">
+                        <strong><%= comment.author.username %></strong>
+                        <span class="pull-right">10 days ago</span>
+                        <p><%= comment.text %></p>
+                        <% if(currentUser && comment.author.id.equals(currentUser._id)) { %>
+                            <a class="btn btn-xs btn-warning" href="/surfspots/<%= surfspot._id %>/comments/<%= comment._id %>/edit">Edit</a>
+                            <form class="delete-form" action="/surfspots/<%= surfspot._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+                                <input type="submit" class="btn btn-xs btn-danger" value="Delete">
+                            </form>
+                        <% } %>
                     </div>
-                <% }); %>
-            </div>
+                </div>
+            <% }); %>
         </div>
     </div>
 </div>
+
 
 
 

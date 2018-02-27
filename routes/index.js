@@ -9,19 +9,20 @@ router.get("/", function(req, res) {
    res.render("landing"); 
 });
 
-// Register Form
-router.get("/register", function(req, res) {
-   res.render("register"); 
+// Show Register Form
+router.get("/register", function(req, res){
+   res.render("register", {page: 'register'}); 
 });
+
 
 // Sign Up Logic
 router.post("/register", function(req, res) {
     var newUser = new User({username: req.body.username});
    User.register(newUser, req.body.password, function(err, user) {
-      if(err) {
-          req.flash("error", err.message);
-          return res.redirect("/register");
-      } 
+      if(err){
+            console.log(err);
+            return res.render("register", {error: err.message});
+        }    
       passport.authenticate("local")(req, res, function(){
          req.flash("success", "Welcome to YelpSurf " + user.username); 
          res.redirect("/surfspots"); 
@@ -29,9 +30,9 @@ router.post("/register", function(req, res) {
    });
 });
 
-// Log In From
-router.get("/login", function(req, res) {
-   res.render("login"); 
+// Show Login Form
+router.get("/login", function(req, res){
+   res.render("login", {page: 'login'}); 
 });
 
 

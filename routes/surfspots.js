@@ -4,28 +4,30 @@ var Surfspot = require("../models/surfspot");
 var middleware = require("../middleware");
 
 
-// Index Route
-router.get("/surfspots", function(req, res) {
-    Surfspot.find({}, function(err, allSurfspots) {
-        if(err) {
-            console.log(err);
-        } else {
-            res.render("surfspots/index", {surfspots: allSurfspots});
-        }
+
+//INDEX - Show All Surf Spots
+router.get("/", function(req, res){
+    // Get all surfspots from DB
+    Surfspot.find({}, function(err, allSurfspots){
+       if(err){
+           console.log(err);
+       } else {
+          res.render("surfspots/index",{surfspots: allSurfspots, page: 'surfspots'});
+       }
     });
 });
 
 // Create Route
 router.post("/surfspots", middleware.isLoggedIn, function(req, res) {
     var name = req.body.name;
-    var price = req.body.price;
+    var cost = req.body.cost;
     var image = req.body.image;
     var desc = req.body.description;
     var author = {
         id: req.user._id,
         username: req.user.username
     };
-    var newSurfSpot = {name: name, price: price, image: image, description: desc, author: author};
+    var newSurfSpot = {name: name, cost: cost, image: image, description: desc, author: author};
     Surfspot.create(newSurfSpot, function(err, newlyCreatedSpot) {
         if(err) {
             console.log("Something Went Wrong");

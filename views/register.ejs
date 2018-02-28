@@ -5,19 +5,38 @@
     <div style="width: 30%; margin: 25px auto;">
         <form action="/register" method="post">
             <div class="form-group">
+                <label for="username">Username</label>
                 <input class="form-control" type="text" name="username" placeholder="username">
             </div>
             <div class="form-group">
+                <label for="password">Password</label>
                 <input class="form-control" type="password" name="password" placeholder="password">
             </div>
             <div class="form-group">
-                <input class="form-control" type="text" name="adminCode" placeholder="Admin Code (optional)">
+                <label for="firstName">First Name</label>
+                <input class="form-control" type="text" name="firstName" placeholder="Charlie">
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input class="form-control" type="text" name="lastName" placeholder="Brown">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input class="form-control" type="email" name="email" placeholder="jane@doe.com">
+            </div>
+            <div class="form-group">
+                <label for="avatar">Avatar</label>
+                <input class="form-control" type="text" name="avatar" placeholder="Avatar Image Url">
+            </div>
+            <div class="form-group">
+                <label for="admin">Are you an Admin?</label>
+                <input class="form-control" type="password" name="adminCode" placeholder="Admin Code (optional)">
             </div>
             <div class="form-group">
                 <button class="btn btn-lg btn-primary btn-block">Sign Up!</button>
             </div>
         </form>
-        <a href="/campgrounds">Go Back</a>
+        <a href="/surfspots">Go Back</a>
     </div>
 </div>
 

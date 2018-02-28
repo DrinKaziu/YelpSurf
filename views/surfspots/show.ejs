@@ -18,7 +18,7 @@
                 <h4 class="pull-right">$<%= surfspot.cost %>/night</h4>
                 <h4><a><%= surfspot.name %></a></h4>
                 <p><%= surfspot.description %></p>
-                <p><em>Submitted By: <%= surfspot.author.username %>, <%= moment(surfspot.createdAt).fromNow() %></em></p>
+                <p><em>Submitted By: <a href="/users/<%= surfspot.author.id %>"><%= surfspot.author.username %></a>, <%= moment(surfspot.createdAt).fromNow() %></em></p>
                 <% if(currentUser && surfspot.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin) { %>
                     <a href="/surfspots/<%= surfspot._id %>/edit" class="btn btn-xs btn-warning" >Edit</a>
                     <form class="delete-form" action="/surfspots/<%= surfspot._id %>?_method=DELETE" method="POST">

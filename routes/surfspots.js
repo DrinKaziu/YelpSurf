@@ -2,8 +2,13 @@ var express = require("express");
 var router = express.Router();
 var Surfspot = require("../models/surfspot");
 var middleware = require("../middleware");
-var geocoder = require("geocoder");
-
+var NodeGeocoder = require('node-geocoder');
+var options = {
+  provider: 'google',
+  httpAdapter: 'https',
+  apiKey: process.env.GOOGLE_MAPS_API_KEY
+};
+var geocoder = NodeGeocoder(options);
 
 
 //INDEX - Show All Surf Spots
@@ -29,9 +34,13 @@ router.post("/surfspots", middleware.isLoggedIn, function(req, res) {
         username: req.user.username
     };
         geocoder.geocode(req.body.location, function (err, data) {
-            var lat = data.results[0].geometry.location.lat;
-            var lng = data.results[0].geometry.location.lng;
-            var location = data.results[0].formatted_address;
+            if(err || data.status === "ZERO_RESULTS" || !data.length) {
+                   req.flash("error", "Invalid address - try typing a new location");
+                   return res.redirect("back");
+               }
+            var lat = data[0].latitude;
+            var lng = data[0].longitude;
+            var location = data[0].formattedAddress;
             var newSurfSpot = {name: name, cost: cost, image: image, description: desc, author: author, location: location, lat: lat, lng: lng};
         Surfspot.create(newSurfSpot, function(err, newlyCreatedSpot) {
             if(err) {
@@ -72,9 +81,13 @@ router.get("/surfspots/:id/edit", middleware.checkSurfspotOwnership, function(re
 // Update Route
 router.put("/surfspots/:id", middleware.checkSurfspotOwnership, function(req, res) {
         geocoder.geocode(req.body.location, function (err, data) {
-            var lat = data.results[0].geometry.location.lat;
-            var lng = data.results[0].geometry.location.lng;
-            var location = data.results[0].formatted_address;
+            if(err || data.status === "ZERO_RESULTS" || !data.length) {
+                   req.flash("error", "Invalid address - try typing a new location");
+                   return res.redirect("back");
+               }
+            var lat = data[0].latitude;
+            var lng = data[0].longitude;
+            var location = data[0].formattedAddress;
             var newData = {name: req.body.name, image: req.body.image, description: req.body.description, cost: req.body.cost, location: location, lat: lat, lng: lng};
         Surfspot.findByIdAndUpdate(req.params.id, req.body.surfspot, function(err, updatedSurfspot) {
            if(err) {

@@ -26,6 +26,8 @@ app.use(methodOverride("_method"));
 app.use(flash());
 // seedDB(); // Seed the database
 
+app.locals.moment = require('moment');
+
 // PASSPORT CONFIGURATION
 app.use(require("express-session")({
     secret: "Nacho is the cutest dog",

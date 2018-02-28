@@ -9,7 +9,7 @@ middlewareObj.checkSurfspotOwnership = function(req, res, next) {
                 req.flash("error", "Surfspot not found");
                 res.redirect("back");
             } else {
-                if(foundSurfspot.author.id.equals(req.user._id)) {
+                if(foundSurfspot.author.id.equals(req.user._id) || req.user.isAdmin) {
                     next(); 
                 } else {
                     req.flash("error", "You don't have permission to do that");
@@ -29,7 +29,7 @@ middlewareObj.checkCommentOwnership = function(req, res, next) {
             if (err) {
                 res.redirect("back");
             } else {
-                if(foundComment.author.id.equals(req.user._id)) {
+                if(foundComment.author.id.equals(req.user._id) || req.user.isAdmin) {
                     next(); 
                 } else {
                     req.flash("error", "You don't have permission to do that");

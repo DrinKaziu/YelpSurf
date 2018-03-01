@@ -24,6 +24,14 @@
     <div id="landing-header">
  		<h1>Welcome to YelpSurf!</h1>
 		<a href="/surfspots" class="btn btn-lg btn-success">View All Surf Spots</a>
+		<p>
+            <form class="form-inline" action="/surfspots" method="GET">
+                <div class="form-group">
+                    <input class="form-control" type="text" name="search" placeholder="Search Spots...">
+                    <input class="btn btn-default" type="submit" value="search">
+                </div>
+            </form>
+        </p>
     </div>
     
     <ul class="slideshow">

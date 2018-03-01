@@ -13,14 +13,26 @@ var geocoder = NodeGeocoder(options);
 
 //INDEX - Show All Surf Spots
 router.get("/surfspots", function(req, res){
-    // Get all surfspots from DB
-    Surfspot.find({}, function(err, allSurfspots){
-       if(err){
-           console.log(err);
-       } else {
-          res.render("surfspots/index",{surfspots: allSurfspots, page: 'surfspots'});
-       }
-    });
+    if(req.query.search) {
+        const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+        // Get all surfspots from DB
+        Surfspot.find({name: regex}, function(err, allSurfspots){
+           if(err){
+               console.log(err);
+           } else {
+              res.render("surfspots/index",{surfspots: allSurfspots, page: 'surfspots'});
+           }
+        });
+    } else {
+        // Get all surfspots from DB
+        Surfspot.find({}, function(err, allSurfspots){
+           if(err){
+               console.log(err);
+           } else {
+              res.render("surfspots/index",{surfspots: allSurfspots, page: 'surfspots'});
+           }
+        });
+    }
 });
 
 // Create Route
@@ -109,5 +121,9 @@ router.delete("/surfspots/:id", middleware.checkSurfspotOwnership, function(req,
         }
     });
 });
+
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+}
 
 module.exports = router;

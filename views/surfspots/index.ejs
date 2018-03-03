@@ -8,17 +8,15 @@
     </div>
 </header>
 
-<div class="row text-center" style="display: flex; flex-wrap: wrap;">
+<div class="row text-center">
     <% surfspots.forEach(function(surfspot) { %>
-        <div class="col-md-3 col-sm-6">
-            <div class="thumbnail">
-                <img src="<%= surfspot.image %>">
-                <div class="caption">
-                    <h4><%= surfspot.name %></h4>
-                </div>
-                <p>
-                    <a href="/surfspots/<%= surfspot._id %>" class="btn btn-primary">More Info</a>
-                </p>
+        <div class="col-lg-3 -md-4 col-sm-6 mb-4">
+            <div class="card">
+              <img class="card-img-top" src="<%= surfspot.image %>" alt="<%= surfspot.name %>">
+              <div class="card-body">
+                <h5 class="card-title"><%= surfspot.name %></h5>
+                <a href="/surfspots/<%= surfspot._id %>" class="btn btn-primary">More Info</a>
+              </div>
             </div>
         </div>
     <% }); %>

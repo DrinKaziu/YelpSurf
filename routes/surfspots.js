@@ -59,27 +59,36 @@ router.get("/surfspots", function(req, res){
 
 // Create Route
 router.post("/surfspots", middleware.isLoggedIn, upload.single('image'), function(req, res) {
-        // geocoder configuration
-        geocoder.geocode(req.body.surfspot.location, function (err, data) {
-            if (err) return console.log(err);
-            req.body.surfspot.lat = data[0].location.lat;
-            req.body.surfspot.lng = data[0].location.lng;
-            req.body.surfspot.location = data.results[0].formattedAddress;
-        // cloudinary configuration
+        var name = req.body.name;
+        var cost = req.body.cost;
+        var desc = req.body.description;
+        var author = {
+            id: req.user._id,
+            username: req.user.username
+        };
+        geocoder.geocode(req.body.location, function (err, data) {
+            if(err || data.status === "ZERO_RESULTS" || !data.length) {
+                   req.flash("error", "Invalid address - try typing a new location");
+                   return res.redirect("back");
+               }
+                var lat = data[0].latitude;
+                var lng = data[0].longitude;
+                var location = data[0].formattedAddress;
         cloudinary.uploader.upload(req.file.path, function(result) {
             // add cloudinary url for the image to the surfspot object under image property
-            req.body.surfspot.image = result.secure_url;
+            var image = result.secure_url;
             // add author to surfspot
-            req.body.surfspot.author = {
+            var author = {
                 id: req.user._id,
                 username: req.user.username
             };
-            surfspot.create(req.body.surfspot, function(err, surfspot) {
+            var newSurfSpot = {name: name, cost: cost, image: image, description: desc, author: author, location: location, lat: lat, lng: lng};
+            Surfspot.create(newSurfSpot, function(err, newlyCreatedSpot) {
                 if (err) {
                   req.flash('error', err.message);
                   return res.redirect('back');
                 }
-                res.redirect('/surfspots/' + surfspot.id);
+                res.redirect('/surfspots');
             });
         });
     });

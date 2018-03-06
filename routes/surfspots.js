@@ -61,7 +61,6 @@ router.get("/surfspots", function(req, res){
 router.post("/surfspots", middleware.isLoggedIn, upload.single('image'), function(req, res) {
         var name = req.body.name;
         var cost = req.body.cost;
-        var image = req.body.image;
         var desc = req.body.description;
         var author = {
             id: req.user._id,

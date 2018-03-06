@@ -54,13 +54,13 @@ router.post("/login", passport.authenticate("local",
      successRedirect: "/surfspots",
      failureRedirect: "/login"   
     }), function(req, res) {
-   res.send("logging you in.."); 
+   res.send("Welcome Back!!"); 
 });
 
 // Log Out Route
 router.get("/logout", function(req, res) {
     req.logout();
-    req.flash("success", "Logged you out!!");
+    req.flash("success", "See you later!!");
     res.redirect("/surfspots");
 });
 

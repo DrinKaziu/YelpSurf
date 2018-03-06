@@ -123,24 +123,41 @@ router.get("/surfspots/:id/edit", middleware.checkSurfspotOwnership, function(re
 });
 
 // Update Route
-router.put("/surfspots/:id", middleware.checkSurfspotOwnership, function(req, res) {
-        geocoder.geocode(req.body.location, function (err, data) {
-            if(err || data.status === "ZERO_RESULTS" || !data.length) {
-                   req.flash("error", "Invalid address - try typing a new location");
-                   return res.redirect("back");
-               }
-            var lat = data[0].latitude;
-            var lng = data[0].longitude;
-            var location = data[0].formattedAddress;
-            var newData = {name: req.body.name, image: req.body.image, description: req.body.description, cost: req.body.cost, location: location, lat: lat, lng: lng};
-        Surfspot.findByIdAndUpdate(req.params.id, req.body.surfspot, function(err, updatedSurfspot) {
-           if(err) {
-               res.redirect("/surfspots");
-           } else {
-               res.redirect("/surfspots/" + req.params.id);
-           }
-       });
-   }); 
+router.put("/surfspots/:id", middleware.checkSurfspotOwnership, upload.single('image'), function(req, res) {
+            var name = req.body.name;
+            var cost = req.body.cost;
+            var image = req.body.image;
+            var desc = req.body.description;
+            var author = {
+                id: req.user._id,
+                username: req.user.username
+            };
+            geocoder.geocode(req.body.location, function (err, data) {
+                if(err || data.status === "ZERO_RESULTS" || !data.length) {
+                       req.flash("error", "Invalid address - try typing a new location");
+                       return res.redirect("back");
+                   }
+                var lat = data[0].latitude;
+                var lng = data[0].longitude;
+                var location = data[0].formattedAddress;
+            cloudinary.uploader.upload(req.file.path, function(result) {
+                // add cloudinary url for the image to the surfspot object under image property
+                var image = result.secure_url;
+                // add author to surfspot
+                var author = {
+                    id: req.user._id,
+                    username: req.user.username
+                };
+                var newSurfSpot = {name: name, cost: cost, image: image, description: desc, author: author, location: location, lat: lat, lng: lng};
+            Surfspot.findByIdAndUpdate(req.params.id, newSurfSpot, function(err, updatedSurfspot) {
+                if(err) {
+                   res.redirect("/surfspots");
+                } else {
+                   res.redirect("/surfspots/" + req.params.id);
+                }
+            });
+        });
+    }); 
 });
 
 // Destroy Route

@@ -5,10 +5,10 @@
         <h1 style="text-align: center;">Edit <%= surfspot.name %></h1>
     </div>
     <div class="col-xs-12 col-md-6 col-lg-4">
-        <form action="/surfspots/<%= surfspot._id %>?_method=PUT" method="POST">
+        <form action="/surfspots/<%= surfspot._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="name">Name</label>
-                <input class="form-control" type="text" name="surfspot[name]" value="<%= surfspot.name %>">
+                <input class="form-control" type="text" name="name" value="<%= surfspot.name %>">
             </div>
             <div class="form-group">
               <label for="cost">Cost</label>
@@ -19,12 +19,12 @@
                 <input class="form-control" type="text" name="location" id="location" value="<%= surfspot.location %>">
             </div>
             <div class="form-group">
-                <label for="image">Image Url</label>
-                <input class="form-control" type="text" name="surfspot[image]" value="<%= surfspot.image %>">
+                <label for="image">Image</label>
+                <input type="file" id="image" name="image" accept="image/*" required>
             </div>
             <div class="form-group">
                 <label for="description">Description</label>
-                <input class="form-control" type="text" name="surfspot[description]" value="<%= surfspot.description %>">
+                <input class="form-control" type="text" name="description" value="<%= surfspot.description %>">
             </div>
             <div class="form-group">
                 <button class="btn btn-lg btn-primary btn-block">Submit</button>

@@ -1,27 +1,32 @@
 require "selenium-webdriver"
 require "rspec"
 
+timestamp = Time.now.to_i
+username = "user#{timestamp}"
+name = "name#{timestamp}"
+email = "user#{timestamp}@test.com"
+password = "password"
+
 # TEST: Sign up for blog
 describe "YelpSurf application" do
   describe "Sign up to YelpSurf" do
     it "Confirms that user has successfully signed up" do
-      timestamp = Time.now.to_i
 
       driver = Selenium::WebDriver.for :firefox
 
       driver.navigate.to "https://yelpsurf.herokuapp.com/register"
 
       username_field = driver.find_element(id: 'inputUsername')
-      username_field.send_keys("user#{timestamp}")
+      username_field.send_keys(username)
 
       name_field = driver.find_element(id: 'name')
-      name_field.send_keys("name#{timestamp}")
+      name_field.send_keys(name)
 
       email_field = driver.find_element(id: 'inputEmail')
-      email_field.send_keys("user#{timestamp}@test.com")
+      email_field.send_keys(email)
 
       password_field = driver.find_element(id: 'inputPassword')
-      password_field.send_keys("password")
+      password_field.send_keys(password)
 
       sign_up_button = driver.find_element(class_name: 'btn-primary')
       sign_up_button.click

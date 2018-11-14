@@ -51,6 +51,6 @@ app.use(indexRoutes);
 app.use(commentsRoutes);
 app.use(surfspotRoutes);
 
-app.listen(process.env.PORT, process.env.IP, function() {
-   console.log("YelpSurf server is listening!!"); 
+app.listen(3000, function() {
+   console.log("YelpSurf server is listening!!");
 });

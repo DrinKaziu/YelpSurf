@@ -1,5 +1,7 @@
 require "selenium-webdriver"
 require "rspec"
+require_relative "signup_page.rb"
+require_relative "users_page.rb"
 
 timestamp = Time.now.to_i
 username = "user#{timestamp}"
@@ -7,35 +9,6 @@ name = "name#{timestamp}"
 email = "user#{timestamp}@test.com"
 password = "password"
 
-def enter_username(username)
-  username_field = @driver.find_element(id: 'inputUsername')
-  username_field.send_keys(username)
-end
-
-def enter_name(name)
-  name_field = @driver.find_element(id: 'name')
-  name_field.send_keys(name)
-end
-
-def enter_email(email)
-  email_field = @driver.find_element(id: 'inputEmail')
-  email_field.send_keys(email)
-end
-
-def enter_password(password)
-  password_field = @driver.find_element(id: 'inputPassword')
-  password_field.send_keys(password)
-end
-
-def submit()
-  sign_up_button = @driver.find_element(class_name: 'btn-primary')
-  sign_up_button.click
-end
-
-def get_banner_text()
-  banner = @driver.find_element(class_name: 'alert')
-  banner_text = banner.text
-end
 
 # TEST: Sign up for blog
 describe "YelpSurf application" do
@@ -47,14 +20,16 @@ describe "YelpSurf application" do
       @driver.navigate.to "https://yelpsurf.herokuapp.com/register"
 
       #fill out form and submit
-      enter_username(username)
-      enter_name(name)
-      enter_email(email)
-      enter_password(password)
-      submit()
+      signup = SignupPage.new(@driver)
+      signup.enter_username(username)
+      signup.enter_name(name)
+      signup.enter_email(email)
+      signup.enter_password(password)
+      signup.submit()
 
       # Confirm user is signed up successfully
-      banner_text = get_banner_text()
+      users = UsersPage.new(@driver)
+      banner_text = users.get_banner_text()
       expect(banner_text).to eq("Welcome to YelpSurf user#{timestamp}")
 
       @driver.quit

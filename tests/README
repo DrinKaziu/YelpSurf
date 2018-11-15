@@ -1,0 +1,68 @@
+
+https://yelpsurf.testlodge.com/projects/30060/test_plans/34427/view
+
+Signup Page - Successfully sign up on yelpsurf.herokuapp.com
+Test plan identifier: Sign34427
+Created on: 15th November 2018
+Updated on: 15th November 2018
+
+Contents
+Introduction
+Features to be tested
+Test items
+Approach
+Test deliverables
+Testing tasks
+1. Introduction
+A new user should be able to navigate to yelpsurf.herokuapp.com/register and successfully create a new account.
+
+Precondition: A user must not have previously registered... i.e. user and/or email must not already exist.
+
+Assumption: A supported browser is being used
+
+2. Features to be tested
+Signup Page
+User Page
+3. Test items
+Navigate to yelpsurf.herokuapp.com/register
+Unique username is entered
+Name is entered
+Unique email is entered
+Password is entered
+Register button is clicked
+Correct banner displays on user page
+4. Approach
+Create an automated test according to this test plan
+
+The test should be written in Ruby
+FireFox should be used to run the test
+Please use Selenium as a Web Driver
+Please use Geckodriver for the Browser Driver
+Use RSpec to write assertions
+Make sure to use the Page Object Pattern in order to separate test and code. Please write clean code that is easy to navigate and understand by making use of variables and creating methods for repeated actions.
+
+5. Test deliverables
+Create a Test folder with a Gemfile and an initial Test file.
+Install Selenium and RSpec
+Obtain gems from the documentation of the respective website and enter into Gemfile
+run "bundle install" in the terminal
+Wrie Test in test file
+require both webdriver and rspec
+create driver with Selenium for Firefox
+find elements that need to be tested (username, name, email, password, button)
+drive appropriate action for each element
+Add structure to the test
+use "success banner" text in user page as assertion for expectation
+implement rspec-core to format the output and describe what's being tested
+Clean up code with variables and methods
+Implement Page Object Pattern
+Create SignupPage class and UsersPage class in separate files
+Transfer appropriate methods and selectors from Test file to class files
+Require both class files in Test file
+6. Testing tasks
+Confirm that the test by running the test multiple times. In order to run the test:
+
+ + Make sure Firefox is running
+ + In the terminal, navigate to the Test file folder
+ + Run "rspec yelp-test.rb"
+ + Confirm that output is "0 failures" in green
